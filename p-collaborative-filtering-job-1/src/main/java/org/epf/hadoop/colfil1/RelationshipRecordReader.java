@@ -25,9 +25,8 @@ public class RelationshipRecordReader extends RecordReader<LongWritable, Relatio
             currentKey.set(lineRecordReader.getCurrentKey().get());
             String[] tokens = lineRecordReader.getCurrentValue().toString().split("<->");
             if (tokens.length >= 2) {
-                // Set the user names (ID1 and ID2) based on the split
-                currentValue.setId1(tokens[0].trim());  // First user
-                currentValue.setId2(tokens[1].split(",")[0].trim());  // Second user (before the timestamp)
+                currentValue.setId1(tokens[0].trim());
+                currentValue.setId2(tokens[1].split(",")[0].trim());
             }
         }
         return hasNext;
