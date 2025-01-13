@@ -8,32 +8,28 @@ Dans ce TP, nous allons explorer et mettre en œuvre une fonctionnalité emblém
 1. Cloner le repos
 2. Build l'image docker présente dans le fichier deploy : `docker build -t hadoop-tp3-img .`
 3. Lancer le container docker : `docker compose up -d`
+4. Se connecter au container : `docker exec -it hadoop-tp3 /bin/bash`
+5. Créer les dossiers suivants : `hdfs dfs -mkdir -p /user/hvanheerden/input`
+6. Copier les fichiers de données dans le dossier input : `hdfs dfs -put /data/relationships/data.txt user/hvanheerden/input/`
+7. Revenir au root du container
 
 ### Job 1
 
-1. Se placer dans le dossier `colfil1`
-2. `mvn clean install` vous permet de générer le jar correspondant
-3. `hdfs dfs -mkdir -p user/hvanheerden` pour créer le dossier de travail
-4. `hdfs dfs -mkdir -p user/hvanheerden/input` pour créer le dossier d'input
-5. `hadoop jar /home/takima/Travail/hadoop-tp3/p-collaborative-filtering-job-1/target/original-hadoop-tp3-collaborativeFiltering-job1-1.0.jar org.epf.hadoop.colfil1.ColFilJob1 user/hvanheerden/input user/hvanheerden/output`
-6. `hdfs dfs -cat user/hvanheerden/output/part-r-00001` pour afficher le résultat
+1. `hadoop jar /jars/original-hadoop-tp3-collaborativeFiltering-job1-1.0.jar org.epf.hadoop.colfil1.ColFilJob1 user/hvanheerden/input user/hvanheerden/output`
+2. `hdfs dfs -cat user/hvanheerden/output/part-r-00001` pour afficher le résultat
 
 Dans l'output, vous devriez voir les utilisateurs et leurs relations.
 
 ### Job 2
 
-1.  Se placer dans le dossier `colfil2`
-2. `mvn clean install` vous permet de générer le jar correspondant
-3. `hadoop jar /home/takima/Travail/hadoop-tp3/p-collaborative-filtering-job-2/target/original-hadoop-tp3-collaborativeFiltering-job2-1.0.jar org.epf.hadoop.colfil2.ColFilJob2 user/hvanheerden/output/part-r-00001 user/hvanheerden/output2`
-4. `hdfs dfs -cat user/hvanheerden/output2/part-r-00001` pour afficher le résultat
+1. `hadoop jar /jars/original-hadoop-tp3-collaborativeFiltering-job2-1.0.jar org.epf.hadoop.colfil2.ColFilJob2 user/hvanheerden/output/part-r-00001 user/hvanheerden/output2`
+2. `hdfs dfs -cat user/hvanheerden/output2/part-r-00001` pour afficher le résultat
 
 Dans l'output, vous devriez voir les pairs d'utilisateurs et le nombre de relations communes.
 
 ### Job 3
 
-1. Se placer dans le dossier `colfil3`
-2. `mvn clean install` vous permet de générer le jar correspondant
-3. `hadoop jar /home/takima/Travail/hadoop-tp3/p-collaborative-filtering-job-3/target/original-hadoop-tp3-collaborativeFiltering-job3-1.0.jar org.epf.hadoop.colfil3.ColFilJob3 user/hvanheerden/output2/part-r-00001 user/hvanheerden/output3`
-4. `hdfs dfs -cat user/hvanheerden/output3/part-r-00000` pour afficher le résultat
+1. `hadoop jar /jars/original-hadoop-tp3-collaborativeFiltering-job3-1.0.jar org.epf.hadoop.colfil3.ColFilJob3 user/hvanheerden/output2/part-r-00001 user/hvanheerden/output3`
+2. `hdfs dfs -cat user/hvanheerden/output3/part-r-00000` pour afficher le résultat
 
 Dans l'output, vous devriez voir les recommendations pour chaque utilisateur (ici le nombre de recommendations n'est pas limité à 5).
